@@ -13,6 +13,7 @@ public class movement : MonoBehaviour
     public GameObject Camera;
 
     private bool allowJump = true;
+    private Vector3 playerStartPos = new Vector3(296.7f, 217.2f, 493.264f);
 
     // Nathan helped with support and helped with challenges that never existed
     private void Start()
@@ -49,6 +50,16 @@ public class movement : MonoBehaviour
             moveForce = moveForce - SprintSpeed;
         }
 
+        // Sprinting
+        if (Input.GetKeyDown(KeyCode.LeftControl) == true)
+        {
+            moveForce = moveForce + 1000;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftControl) == true)
+        {
+            moveForce = moveForce - 1000;
+        }
+
         //jumping
         if (Input.GetKeyDown("space") == true && allowJump == true)
         {
@@ -58,6 +69,10 @@ public class movement : MonoBehaviour
         //Map camera's y rotation onto the player colider
         trans.eulerAngles = new Vector3(0, Camera.transform.eulerAngles.y, 0);
 
+        if (Input.GetKeyDown(KeyCode.F1) == true)
+        {
+            trans.position = playerStartPos;
+        }
     }
 
     private void OnCollisionEnter(Collision collisionInfo)

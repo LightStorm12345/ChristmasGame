@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PresentCollect : MonoBehaviour
 {
@@ -10,6 +11,15 @@ public class PresentCollect : MonoBehaviour
     public GameObject intText;
     public GameObject player;
     public GameObject intPlane;
+    public GameObject SantaInteract;
+    public GameObject EndScene;
+
+    public GameObject Dialog;
+    public Text dialogBox;
+    public Text Speaker;
+    public GameObject contText;
+    public Text presCount;
+    public GameObject presCountObj;
 
     [HideInInspector]
     public int presentCollected = 0;
@@ -46,7 +56,9 @@ public class PresentCollect : MonoBehaviour
             float distPres4 = Vector3.Distance(player.transform.position, pres4.transform.position);
             float distPres5 = Vector3.Distance(player.transform.position, pres5.transform.position);
             float distPres6 = Vector3.Distance(player.transform.position, pres6.transform.position);
-            DistanceToDoor = Vector3.Distance(player.transform.position, intPlane.transform.position);
+
+            float DistanceToDoor = Vector3.Distance(player.transform.position, intPlane.transform.position);
+            float DistanceToSanta = Vector3.Distance(player.transform.position, SantaInteract.transform.position);
 
             if (hit.collider.name == pres1.name && distPres1 >= 0 && distPres1 <= 4)
             {
@@ -111,7 +123,7 @@ public class PresentCollect : MonoBehaviour
 
 
             //Display "Press E" message when play is close to door and is looking at it
-            
+
             else if (hit.collider.tag == "Door" && DistanceToDoor >= 0 && DistanceToDoor <= 4)
             {
                 intText.SetActive(true);
@@ -130,7 +142,29 @@ public class PresentCollect : MonoBehaviour
                     }
                 }
             }
+
+            else if (hit.collider.tag == "Santa" && DistanceToSanta >= 0 && DistanceToSanta <= 4)
+            {
+                intText.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E) == true)
+                {
+                    if (presentCollected == 6)
+                    {
+                        StartCoroutine(DialogSequence2());
+                    }
+                    if (presentCollected != 6)
+                    {
+                        StartCoroutine(DialogSequence1());
+                    }
+                }
+            }
+
+            else
+            {
+                intText.SetActive(false);
+            }
         }
+
         else
         {
             intText.SetActive(false);
@@ -142,5 +176,95 @@ public class PresentCollect : MonoBehaviour
             print("player fell out of the map");
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape) == true)
+        {
+            Application.Quit();
+        }
+
+        presCount.text = presentCollected + "/6 Presents\nCollected";
+    }
+
+    IEnumerator DialogSequence1()
+    {
+        contText.SetActive(false);
+        player.GetComponent<movement>().enabled = false;
+        Dialog.SetActive(true);
+        Speaker.text = "Santa";
+        dialogBox.text = "Ho Ho Ho, hello there. My sleigh has crashed and the presents have been thrown all around! \nCan you help me please?";
+
+        yield return new WaitForSeconds(2);
+        contText.SetActive(true);
+        while (!Input.GetKeyDown(KeyCode.Space))
+        {
+            yield return null;
+        }
+
+        contText.SetActive(false);
+        Speaker.text = "You";
+        dialogBox.text = "Ok, I will try to help.";
+
+        yield return new WaitForSeconds(1);
+        contText.SetActive(true);
+        while (!Input.GetKeyDown(KeyCode.Space))
+        {
+            yield return null;
+        }
+
+        contText.SetActive(false);
+        Speaker.text = "Santa";
+        dialogBox.text = "Oh jolly good! There are 6 presents, when you are done come back to me";
+
+        yield return new WaitForSeconds(2);
+        contText.SetActive(true);
+
+        while (!Input.GetKeyDown(KeyCode.Space))
+        {
+            yield return null;
+        }
+
+        player.GetComponent<movement>().enabled = true;
+        Dialog.SetActive(false);
+        presCountObj.SetActive(true);
+    }
+    IEnumerator DialogSequence2()
+    {
+        contText.SetActive(false);
+        player.GetComponent<movement>().enabled = false;
+        Dialog.SetActive(true);
+        Speaker.text = "Santa";
+        dialogBox.text = "Wonderful! You did it! Christmas is saved! I'll be sure to add you to the nice list permanently!";
+
+        yield return new WaitForSeconds(2);
+        contText.SetActive(true);
+        while (!Input.GetKeyDown(KeyCode.Space))
+        {
+            yield return null;
+        }
+
+        contText.SetActive(false);
+        Speaker.text = "You";
+        dialogBox.text = "Thank you Santa!";
+
+        yield return new WaitForSeconds(1);
+        contText.SetActive(true);
+        while (!Input.GetKeyDown(KeyCode.Space))
+        {
+            yield return null;
+        }
+
+        contText.SetActive(false);
+        Speaker.text = "Santa";
+        dialogBox.text = "I have to go now, goodbye! Merry Christmas!";
+
+        yield return new WaitForSeconds(1);
+        contText.SetActive(true);
+        while (!Input.GetKeyDown(KeyCode.Space))
+        {
+            yield return null;
+        }
+
+        Dialog.SetActive(false);
+        EndScene.SetActive(true);
+        presCountObj.SetActive(false);
     }
 }

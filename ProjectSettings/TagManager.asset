@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - Door
   - present
+  - Santa
+  - Light
   layers:
   - Default
   - TransparentFX

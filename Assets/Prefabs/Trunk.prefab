@@ -110,6 +110,12 @@ MonoBehaviour:
   yInset: 0.5
   noTreeZone: {fileID: 2022468769706011294, guid: ed71e39216f6d984b8ddc7dff16a9f95,
     type: 3}
+  pres1: {fileID: 191107680383173948, guid: 04b67aca11cde074f8eab5ccf440b71a, type: 3}
+  pres2: {fileID: 7365258399636377697, guid: 4046fdaf2ef67c44aa215e7914f132e5, type: 3}
+  pres3: {fileID: 6738673676606502767, guid: 92e673e6ecc1a2e48bede866a622271f, type: 3}
+  pres4: {fileID: 7108846846106293341, guid: 5f145395adf1d9245ade3d361376b96c, type: 3}
+  pres5: {fileID: 4887926501337081452, guid: 4f486994246719c4cbdc69a10b86b78b, type: 3}
+  pres6: {fileID: 1072881572780274600, guid: 788ad8f3520691a40987a05dae61a82a, type: 3}
 --- !u!1 &8939267184395868175
 GameObject:
   m_ObjectHideFlags: 0
